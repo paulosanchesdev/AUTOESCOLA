@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoescola - Menu Principal</title>
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://static.vecteezy.com/ti/vetor-gratis/p1/11190562-jovem-localizacao-no-carro-vermelho-da-escola-de-conducao-ao-ar-livre-gratis-vetor.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    header {
+      /* Utilizando imagem de fundo com rua e sinalização horizontal amarela */
+      background: url('https://lh6.googleusercontent.com/mvnsRp6sdlnuihnu1jPCSnUDb-ZYsaGnG7wp44DNSiDDYyXlHlC23gdKcbp4Zj02aaEdUpZFBpC1Y4HIxessZzPNDbrRF8mgbmMNLTL6-JyojfqcMx9nKutBiTW6MPXOeDPwrlhEfTaCiGdot_1o') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    /* Caso seja necessário melhorar a legibilidade do cabeçalho */
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 3, 7, 0.6);
+      z-index: 0;
+    }
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo svg {
+      margin-right: 0.5rem;
+    }
+    .logo h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+    nav ul li {
+      margin-left: 1rem;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #dcdcdc;
+    }
+    /* Botão para menu mobile */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      background: #fff;
+      height: 3px;
+      width: 25px;
+      margin-bottom: 4px;
+    }
+    /* Container principal */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+    }
+    .content {
+      padding: 2rem;
+      text-align: center;
+    }
+    /* Estilos para dispositivos menores */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        background-color: rgba(0, 123, 255, 0.9);
+      }
+      nav ul li {
+        margin: 1rem 0;
+        text-align: center;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      nav.active ul {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <!-- Logo simples com SVG: círculo com a letra "A" -->
+      <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#fff" stroke="#007bff" stroke-width="5"/>
+        <text x="50%" y="55%" text-anchor="middle" fill="#007bff" font-size="40" font-family="Arial" dy=".3em">A</text>
+      </svg>
+      <h1>Autoescola</h1>
+    </div>
+    <div class="menu-toggle" id="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="navbar">
+      <ul>
+        <li><a href="pages/27- cadastro de alunos - atualizações 2.html"target="_blank" rel="noopener noreferrer">Alunos</a></li>
+        <li><a href="pages/esboço-21 agendamentos e remarcacoes.html"target="_blank" rel="noopener noreferrer">Aulas</a></li>
+        <li><a href="pages/24- cadastro instrutores.html"target="_blank" rel="noopener noreferrer">Instrutores</a></li>
+        <li><a href="pages/25-cadastro veiculos.html"target="_blank" rel="noopener noreferrer">Veículos</a></li>
+      
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="content">
+      <h2>Sistema de Gerenciamento</h2>
+
+    </div>
+  </div>
+  <script>
+    // Toggle do menu para dispositivos mobile
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navbar = document.getElementById('navbar');
+    mobileMenu.addEventListener('click', () => {
+      navbar.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

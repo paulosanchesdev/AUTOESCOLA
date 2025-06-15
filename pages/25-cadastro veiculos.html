@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoescola - Gerenciamento de Veículos</title>
+  <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; }
+      header { background-color: #007bff; color: white; padding: 1.5rem; text-align: center; }
+      nav { margin-top: 0.5rem; }
+      nav a { color: white; text-decoration: none; margin: 0 0.5rem; }
+      .container { max-width: 1200px; margin: 2rem auto; padding: 1rem; }
+      .card { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 2rem; padding: 1.5rem; }
+      h2 { color: #007bff; margin-bottom: 1rem; }
+      form { display: flex; flex-wrap: wrap; gap: 1rem; }
+      form input, form select, form button { padding: 0.75rem; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: calc(50% - 1rem); }
+      form button { background-color: #007bff; color: white; border: none; cursor: pointer; width: 100%; }
+      form button:hover { background-color: #0056b3; }
+      table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+      table th, table td { padding: 0.75rem; border: 1px solid #ddd; text-align: left; }
+      table th { background-color: #007bff; color: white; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Autoescola - Gerenciamento de Veículos</h1>
+    <nav>
+      <a href="alunos.html">Alunos</a> |
+      <a href="instrutor.html">Instrutores</a>
+    </nav>
+  </header>
+  <div class="container">
+    <!-- Cadastro de Veículo -->
+    <div class="card">
+      <h2>Cadastro de Veículo</h2>
+      <form id="form-veiculo">
+          <input type="text" id="modelo-veiculo" placeholder="Modelo do Veículo" required />
+          <input type="text" id="placa-veiculo" placeholder="Placa do Veículo" required />
+          <select id="categoria-cnh-veiculo" required>
+              <option value="">Selecione a Categoria da CNH</option>
+          </select>
+          <button type="submit">Cadastrar Veículo</button>
+      </form>
+      <h3>Veículos Cadastrados</h3>
+      <table id="veiculos-table">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Modelo</th>
+                  <th>Placa</th>
+                  <th>Categoria CNH</th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    const supabaseUrl = 'https://xoxnwsezmkyfipbnrtiq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhveG53c2V6bWt5ZmlwYm5ydGlxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgwNzgwNTYsImV4cCI6MjA1MzY1NDA1Nn0.fyxXHllPPQpvvtVWP3UQBBbuojyznJognQ7yIgSpH28';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Carregar categorias CNH para veículo
+    async function carregarCategoriasCNH() {
+      try {
+        const { data: categorias, error } = await supabase
+          .from('categorias_cnh')
+          .select('*');
+        if (error) throw error;
+        const categoriaSelect = document.getElementById('categoria-cnh-veiculo');
+        categorias.forEach(categoria => {
+          const option = document.createElement('option');
+          option.value = categoria.id;
+          option.textContent = categoria.nome;
+          categoriaSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar categorias CNH:', error.message);
+      }
+    }
+
+    // Carregar veículos cadastrados
+    async function carregarVeiculos() {
+      try {
+        const { data: veiculos, error } = await supabase
+          .from('veiculos')
+          .select('*');
+        if (error) throw error;
+        const { data: categorias, error: catError } = await supabase
+          .from('categorias_cnh')
+          .select('*');
+        if (catError) throw catError;
+        const categoriasMap = categorias.reduce((acc, categoria) => {
+          acc[categoria.id] = categoria.nome;
+          return acc;
+        }, {});
+        const tableBody = document.getElementById('veiculos-table').querySelector('tbody');
+        tableBody.innerHTML = '';
+        veiculos.forEach(veiculo => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${veiculo.id}</td>
+            <td>${veiculo.modelo}</td>
+            <td>${veiculo.placa}</td>
+            <td>${categoriasMap[veiculo.categoria_id]}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar veículos:', error.message);
+      }
+    }
+
+    // Cadastro de Veículo
+    document.getElementById('form-veiculo').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const modelo = document.getElementById('modelo-veiculo').value;
+      const placa = document.getElementById('placa-veiculo').value;
+      const categoriaId = document.getElementById('categoria-cnh-veiculo').value;
+      try {
+        const { data, error } = await supabase
+          .from('veiculos')
+          .insert([{ modelo, placa, categoria_id: categoriaId }]);
+        if (error) throw error;
+        alert('Veículo cadastrado com sucesso!');
+        carregarVeiculos();
+      } catch (error) {
+        alert('Erro ao cadastrar veículo: ' + error.message);
+      }
+    });
+
+    carregarCategoriasCNH();
+    carregarVeiculos();
+  </script>
+</body>
+</html>
