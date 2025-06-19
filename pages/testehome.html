@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Autoescola - Menu Principal</title>
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://static.vecteezy.com/ti/vetor-gratis/p1/11190562-jovem-localizacao-no-carro-vermelho-da-escola-de-conducao-ao-ar-livre-gratis-vetor.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    header {
+      background-color: #000000; /* fundo preto sólido */
+      color: #fff;
+      height: 70px; /* altura fixa do cabeçalho */
+      padding: 0 2rem; /* espaçamento horizontal */
+      display: flex;
+      align-items: center; /* centraliza verticalmente */
+      justify-content: center; /* centraliza horizontalmente o menu */
+      position: relative;
+      gap: 4rem; /* espaço entre logo e menu */
+      flex-wrap: nowrap;
+    }
+    header::before {
+      content: "";
+      display: none; /* removida sombra, pois fundo é preto sólido */
+    }
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      position: absolute; /* fixa à esquerda */
+      left: 2rem;
+      height: 100%; /* ocupa toda altura do header */
+    }
+    .logo img {
+      height: 90%; /* logo maior */
+      margin-right: 0.8rem;
+    }
+    .logo h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      line-height: 70px; /* para alinhar verticalmente */
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #dcdcdc;
+    }
+    /* Botão para menu mobile */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .menu-toggle span {
+      background: #fff;
+      height: 3px;
+      width: 25px;
+      margin-bottom: 4px;
+      border-radius: 2px;
+    }
+    /* Container principal */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+    }
+    .content {
+      padding: 2rem;
+      text-align: center;
+    }
+    /* Estilos para dispositivos menores */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        background-color: rgba(0, 123, 255, 0.9);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 1rem 0;
+        border-radius: 0 0 8px 8px;
+      }
+      nav ul li {
+        margin: 1rem 0;
+        text-align: center;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      nav.active ul {
+        display: flex;
+      }
+      header {
+        justify-content: center;
+        height: auto;
+        padding: 1rem 2rem;
+        flex-wrap: wrap;
+      }
+      .logo {
+        position: static;
+        height: auto;
+        margin-bottom: 0.5rem;
+        transform: none;
+      }
+      .logo img {
+        height: 60px; /* um pouco menor no mobile */
+      }
+      .logo h1 {
+        line-height: normal;
+      }
+      .menu-toggle {
+        position: static;
+        transform: none;
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="imagenspg/logo site.png" alt="Logotipo Autoescola" />
+   
+    </div>
+    <div class="menu-toggle" id="mobile-menu" aria-label="Menu Mobile" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="navbar">
+      <ul>
+        <li><a href="27- cadastro de alunos - atualizações 2.html" target="_blank" rel="noopener noreferrer">Alunos</a></li>
+        <li><a href="esboço-21 agendamentos e remarcacoes.html" target="_blank" rel="noopener noreferrer">Aulas</a></li>
+        <li><a href="24- cadastro instrutores.html" target="_blank" rel="noopener noreferrer">Instrutores</a></li>
+        <li><a href="25-cadastro veiculos.html" target="_blank" rel="noopener noreferrer">Veículos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <h2>Sistema de Gerenciamento</h2>
+    </div>
+  </div>
+
+  <script>
+    // Toggle do menu para dispositivos mobile
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navbar = document.getElementById('navbar');
+    mobileMenu.addEventListener('click', () => {
+      navbar.classList.toggle('active');
+    });
+
+    // Permitir abrir menu com Enter/Space para acessibilidade
+    mobileMenu.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navbar.classList.toggle('active');
+      }
+    });
+  </script>
+</body>
+</html>
